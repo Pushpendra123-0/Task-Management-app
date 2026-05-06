@@ -1,0 +1,62 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="logo-section">
+      <div class="logo-icon">T</div>
+      <h1>TaskFlow</h1>
+      <p>Project & Task Management</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab === 'login'"
+        (click)="activeTab = 'login'">Sign In</button>
+      <button class="tab" [class.active]="activeTab === 'signup'"
+        (click)="activeTab = 'signup'">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div *ngIf="activeTab === 'login'">
+      <div class="error-msg" *ngIf="error" [textContent]="error"></div>
+      <div class="success-msg" *ngIf="signupSuccess" [textContent]="signupSuccess"></div>
+      <div class="field">
+        <label>Email</label>
+        <input [(ngModel)]="email" type="email" placeholder="your@email.com"
+          (keyup.enter)="login()" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input [(ngModel)]="password" type="password" placeholder="Your password"
+          (keyup.enter)="login()" />
+      </div>
+      <button class="submit-btn" (click)="login()">Sign In</button>
+
+     
+    </div>
+
+    <!-- Signup Form -->
+    <div *ngIf="activeTab === 'signup'">
+      <div class="error-msg" *ngIf="signupError" [textContent]="signupError"></div>
+      <div class="field">
+        <label>Full Name</label>
+        <input [(ngModel)]="signupName" placeholder="Your full name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input [(ngModel)]="signupEmail" type="email" placeholder="your@email.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input [(ngModel)]="signupPassword" type="password" placeholder="Min 6 characters" />
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select [(ngModel)]="signupRole">
+          <option value="member">Member</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button class="submit-btn" (click)="signup()">Create Account</button>
+    </div>
+
+  </div>
+</div>

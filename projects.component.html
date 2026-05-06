@@ -1,0 +1,137 @@
+<div class="projects-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Projects</h1>
+      <p class="sub">Manage your projects and teams</p>
+    </div>
+    <div class="header-actions">
+      <select [(ngModel)]="filterStatus" (change)="loadProjects()" class="filter-select">
+        <option value="">All Status</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+        <option value="on-hold">On Hold</option>
+      </select>
+      <button class="btn-primary" (click)="openCreate()" *ngIf="auth.isAdmin()">
+        New Project
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="showForm">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 [textContent]="editProject ? 'Edit Project' : 'New Project'"></h3>
+        <button class="close-btn" (click)="showForm = false">X</button>
+      </div>
+      <div class="field">
+        <label>Project Name</label>
+        <input [(ngModel)]="form.name" placeholder="Enter project name" />
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea [(ngModel)]="form.description" placeholder="Project description" rows="3"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Status</label>
+          <select [(ngModel)]="form.status">
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="on-hold">On Hold</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Priority</label>
+          <select [(ngModel)]="form.priority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Due Date</label>
+          <input [(ngModel)]="form.dueDate" type="date" />
+        </div>
+        <div class="field">
+          <label>Color</label>
+          <input [(ngModel)]="form.color" type="color" class="color-input" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="showForm = false">Cancel</button>
+        <button class="btn-primary" (click)="save()">
+          <span [textContent]="editProject ? 'Update' : 'Create'"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects Table -->
+  <div class="section-card">
+    <div class="table-wrap">
+      <table class="data-table" *ngIf="projects.length > 0">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Progress</th>
+            <th>Tasks</th>
+            <th>Owner</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let project of projects">
+            <td>
+              <div class="project-name-cell">
+                <div class="color-dot" [style.background]="project.color"></div>
+                <div>
+                  <span class="pname" [textContent]="project.name"></span>
+                  <span class="pdesc" *ngIf="project.description" [textContent]="project.description"></span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class]="'ps-' + project.status" [textContent]="project.status"></span>
+            </td>
+            <td>
+              <span class="badge" [class]="'pri-' + project.priority" [textContent]="project.priority"></span>
+            </td>
+            <td>
+              <div class="progress-cell">
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="getProgress(project)" [style.background]="project.color"></div>
+                </div>
+                <span [textContent]="getProgress(project) + '%'"></span>
+              </div>
+            </td>
+            <td [textContent]="project.taskCount + ' tasks'"></td>
+            <td [textContent]="project.ownerName"></td>
+            <td [textContent]="project.dueDate ? (project.dueDate | date:'MMM d, y') : '-'"></td>
+            <td>
+              <div class="action-btns">
+                <a [routerLink]="['/projects', project.id]" class="btn-sm">View</a>
+                <button class="btn-sm-edit" (click)="openEdit(project)" *ngIf="auth.isAdmin()">Edit</button>
+                <button class="btn-sm-del" (click)="delete(project.id)" *ngIf="auth.isAdmin()">Del</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty-state" *ngIf="projects.length === 0">
+        <div class="empty-icon">P</div>
+        <h3>No projects found</h3>
+        <p *ngIf="auth.isAdmin()">Create your first project to get started</p>
+        <p *ngIf="!auth.isAdmin()">You have not been assigned to any projects yet</p>
+        <button class="btn-primary" (click)="openCreate()" *ngIf="auth.isAdmin()">Create Project</button>
+      </div>
+    </div>
+  </div>
+
+</div>

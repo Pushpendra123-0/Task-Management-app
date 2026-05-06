@@ -1,0 +1,116 @@
+<div class="dashboard">
+
+  <div class="page-header">
+    <div>
+      <h1>Dashboard</h1>
+      <p class="sub" [textContent]="'Welcome back, ' + auth.getCurrentUser()?.name + '!'"></p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/projects" class="btn-primary">New Project</a>
+    </div>
+  </div>
+
+  <div class="stats-row" *ngIf="stats">
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Total Tasks</span>
+        <span class="stat-icon purple">T</span>
+      </div>
+      <div class="stat-number" [textContent]="stats.total"></div>
+      <div class="stat-sub" [textContent]="stats.done + ' completed'"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">In Progress</span>
+        <span class="stat-icon blue">I</span>
+      </div>
+      <div class="stat-number" [textContent]="stats.inProgress"></div>
+      <div class="stat-sub" [textContent]="stats.review + ' in review'"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">To Do</span>
+        <span class="stat-icon gray">D</span>
+      </div>
+      <div class="stat-number" [textContent]="stats.todo"></div>
+      <div class="stat-sub">Pending tasks</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Overdue</span>
+        <span class="stat-icon red">!</span>
+      </div>
+      <div class="stat-number" [textContent]="stats.overdue"></div>
+      <div class="stat-sub">Need attention</div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+
+    <div class="section-card">
+      <div class="section-header">
+        <h3>Recent Tasks</h3>
+        <a routerLink="/tasks" class="view-all">View all</a>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" *ngIf="stats?.recent?.length > 0">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Project</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Due</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let task of stats?.recent">
+              <td class="task-name-cell" [textContent]="task.title"></td>
+              <td class="muted" [textContent]="task.projectName || '-'"></td>
+              <td>
+                <span class="badge" [class]="getPriorityClass(task.priority)"
+                  [textContent]="task.priority"></span>
+              </td>
+              <td>
+                <span class="badge" [class]="getStatusClass(task.status)"
+                  [textContent]="task.status"></span>
+              </td>
+              <td>
+                <span [class.overdue]="isOverdue(task.dueDate)"
+                  [textContent]="task.dueDate ? (task.dueDate | date:'MMM d') : '-'">
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="empty-state" *ngIf="!stats?.recent?.length">
+          <p>No tasks yet. Create your first task!</p>
+          <a routerLink="/projects" class="btn-primary-sm">Get Started</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <h3>My Projects</h3>
+        <a routerLink="/projects" class="view-all">View all</a>
+      </div>
+      <div class="project-list">
+        <div class="project-row" *ngFor="let project of projects">
+          <div class="project-color" [style.background]="project.color"></div>
+          <div class="project-info">
+            <span class="project-name" [textContent]="project.name"></span>
+            <span class="project-status" [class]="'ps-' + project.status"
+              [textContent]="project.status"></span>
+          </div>
+          <a [routerLink]="['/projects', project.id]" class="btn-sm">Open</a>
+        </div>
+        <div class="empty-state" *ngIf="!projects.length">
+          <p>No projects yet!</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

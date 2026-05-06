@@ -1,0 +1,80 @@
+.login-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+
+.login-card {
+  background: white; border-radius: 16px;
+  padding: 2.5rem; width: 100%; max-width: 420px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+
+.logo-section { text-align: center; margin-bottom: 2rem; }
+
+.logo-icon {
+  width: 52px; height: 52px; background: #6c63ff;
+  color: white; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 800; margin: 0 auto 12px;
+}
+
+.logo-section h1 { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
+.logo-section p { font-size: 13px; color: #94a3b8; }
+
+.tabs {
+  display: flex; gap: 4px; background: #f1f5f9;
+  border-radius: 10px; padding: 4px; margin-bottom: 1.5rem;
+}
+
+.tab {
+  flex: 1; padding: 8px;
+  background: transparent; border: none;
+  border-radius: 7px; font-size: 14px;
+  color: #64748b; cursor: pointer; font-weight: 500;
+  transition: all 0.15s;
+}
+
+.tab.active { background: white; color: #1e293b; font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+.error-msg {
+  background: #fff0f0; color: #dc2626;
+  border: 1px solid #fecaca; border-radius: 8px;
+  padding: 10px 14px; font-size: 13px; margin-bottom: 1rem;
+}
+
+.success-msg {
+  background: #f0fdf4; color: #16a34a;
+  border: 1px solid #bbf7d0; border-radius: 8px;
+  padding: 10px 14px; font-size: 13px; margin-bottom: 1rem;
+}
+
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+.field input, .field select {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid #e2e8f0; border-radius: 8px;
+  font-size: 14px; outline: none; box-sizing: border-box;
+  background: white; transition: border-color 0.15s;
+}
+.field input:focus, .field select:focus { border-color: #6c63ff; }
+
+.submit-btn {
+  width: 100%; padding: 11px;
+  background: #6c63ff; color: white;
+  border: none; border-radius: 8px;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s;
+}
+.submit-btn:hover { background: #5b52e8; }
+
+
+.role-tag {
+  font-size: 10px; font-weight: 700; padding: 2px 8px;
+  border-radius: 20px; text-transform: uppercase;
+}
+
+.role-tag.admin { background: #ede9fe; color: #6c63ff; }
+.role-tag.member { background: #f0fdf4; color: #16a34a; }
