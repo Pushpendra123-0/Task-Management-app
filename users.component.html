@@ -1,0 +1,87 @@
+<div class="users-page">
+
+  <div class="page-header">
+    <div>
+      <h1>User Management</h1>
+      <p class="sub">Manage all users and their roles</p>
+    </div>
+    <button class="btn-primary" (click)="showForm = true">Add User</button>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal-overlay" *ngIf="showForm">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New User</h3>
+        <button class="close-btn" (click)="showForm = false; error = ''">X</button>
+      </div>
+      <div class="error-msg" *ngIf="error" [textContent]="error"></div>
+      <div class="field">
+        <label>Full Name</label>
+        <input [(ngModel)]="form.name" placeholder="User full name" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input [(ngModel)]="form.email" type="email" placeholder="user@email.com" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input [(ngModel)]="form.password" type="password" placeholder="Min 6 characters" />
+      </div>
+      <div class="field">
+        <label>Role</label>
+        <select [(ngModel)]="form.role">
+          <option value="member">Member</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="showForm = false; error = ''">Cancel</button>
+        <button class="btn-primary" (click)="save()">Add User</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="section-card">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              <div class="user-cell">
+                <div class="user-av" [textContent]="user.name[0]"
+                  [class.admin-av]="user.role === 'admin'"></div>
+                <span class="uname" [textContent]="user.name"></span>
+                <span class="you-tag" *ngIf="user.id === auth.getCurrentUser()?.id">You</span>
+              </div>
+            </td>
+            <td [textContent]="user.email"></td>
+            <td>
+              <span class="role-badge" [class.admin-role]="user.role === 'admin'"
+                [textContent]="user.role"></span>
+            </td>
+            <td [textContent]="user.createdAt | date:'MMM d, y'"></td>
+            <td>
+              <button class="btn-sm-del"
+                (click)="delete(user.id)"
+                [disabled]="user.id === auth.getCurrentUser()?.id">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
